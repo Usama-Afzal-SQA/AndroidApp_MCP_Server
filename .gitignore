@@ -1,0 +1,11 @@
+node_modules/
+artifacts/
+.env
+*.log
+mcp-server.log
+device_console.log
+android_logcat.log
+apps/**/*.apk
+apps/**/*.aab
+apps/**/*.ipa
+apps/**/*.app
