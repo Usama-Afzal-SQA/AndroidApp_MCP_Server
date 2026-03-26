@@ -22,6 +22,7 @@ The project already contains:
 - Codex MCP wiring in `~/.codex/config.toml`
 - Android app config in `.env`
 - Manual OTP helper in `tests/utils/otp.prompt.js`
+- Structured prompt specs under `prompts/android/`
 
 ## Start Appium
 
@@ -48,7 +49,23 @@ Use the existing OTP helper in tests/utils/otp.prompt.js for manual OTP entry.
 
 For the existing owner login flow, you can also use:
 
-- `prompts/goally-owner-login-otp.md`
+- `prompts/android/auth/login.md`
+
+## Generate artifacts from prompt specs
+
+Prompt specs are grouped by feature area and can contain multiple scenarios in the same file. Generated artifacts are written under `generated-tests/` and are not executed by WDIO by default.
+
+Generate one artifact:
+
+```bash
+npm run spec:generate -- prompts/android/auth/login.md
+```
+
+Generate all artifacts:
+
+```bash
+npm run spec:generate:all
+```
 
 ## Run the login test
 
@@ -115,4 +132,5 @@ npm run mcp
 - `config/env.js`
 - `tests/specs/goally-owner-login-manual-otp.e2e.js`
 - `tests/utils/otp.prompt.js`
-- `prompts/goally-owner-login-otp.md`
+- `prompts/android/auth/login.md`
+- `generated-tests/android/`

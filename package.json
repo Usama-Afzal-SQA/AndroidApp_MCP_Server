@@ -10,6 +10,8 @@
   "scripts": {
     "appium": "/opt/homebrew/bin/appium server --address 127.0.0.1 --port 4723 --base-path /",
     "mcp": "appium-mcp",
+    "spec:generate": "node ./tools/spec-generator.js",
+    "spec:generate:all": "node ./tools/spec-generator.js --all",
     "test:android": "wdio run ./config/wdio.android.conf.js",
     "test:ios": "wdio run ./config/wdio.ios.conf.js",
     "drivers:list": "/opt/homebrew/bin/appium driver list --installed"

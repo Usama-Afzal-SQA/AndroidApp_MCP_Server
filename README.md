@@ -5,6 +5,7 @@ This repository is set up for:
 - WebdriverIO test execution
 - Appium-driven Android and iOS sessions
 - The Gavrix Appium MCP server for inspection and script generation
+- Structured Markdown prompt specs grouped by feature area
 - Page Object Model based test organization
 - Codex in VS Code using the shared Codex MCP config
 
@@ -19,6 +20,9 @@ This repository is set up for:
 ## Project layout
 
 - `config/` contains shared, Android, and iOS WDIO configs
+- `prompts/android/` contains feature-organized Markdown prompt specs
+- `generated-tests/` contains generated test artifacts that are not executed by default
+- `tools/spec-generator.js` generates deterministic test artifacts from prompt specs
 - `tests/pageobjects/` contains page objects
 - `tests/specs/` contains end-to-end specs
 - `tests/utils/` contains reusable test helpers such as terminal OTP input
@@ -91,6 +95,24 @@ Inspect the current screen and create a new end-to-end test using the Page Objec
 Place the page object in tests/pageobjects and the spec in tests/specs.
 Use stable accessibility selectors where possible and avoid brittle XPath unless there is no better option.
 ```
+
+## Prompt specs and generated artifacts
+
+Use `prompts/android/<feature>/<journey>.md` as the authoring layer for reusable prompt specs. Each journey spec can contain multiple scenarios and maps to one stable generated artifact path under `generated-tests/`.
+
+Generate one artifact:
+
+```bash
+npm run spec:generate -- prompts/android/auth/login.md
+```
+
+Generate all artifacts:
+
+```bash
+npm run spec:generate:all
+```
+
+The current executable WDIO suite still runs from `tests/specs/`, so adding generated artifacts does not change the existing test execution flow.
 
 ## Run tests
 
