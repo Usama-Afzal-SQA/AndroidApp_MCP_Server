@@ -29,6 +29,7 @@ const REQUIRED_SCENARIO_SECTIONS = [
 const SHARED_DATA_CONSTANTS = {
   ownerEmail: 'OWNER_EMAIL',
   appPackage: 'GOALLY_PACKAGE',
+  rulesEntryLabel: 'RULES_ENTRY_LABEL',
   guideSearchTerm: 'GUIDE_SEARCH_TERM',
   guideCustomization: 'GUIDE_CUSTOMIZATION',
   confirmationButton: 'CONFIRMATION_BUTTON'
@@ -88,6 +89,28 @@ const FLOW_DEFINITIONS = {
       ');'
     ]
   },
+  open_rules_from_home: {
+    pageObjects: ['home.page', 'rules.page'],
+    helpers: [],
+    sharedData: ['rulesEntryLabel'],
+    renderLines: () => [
+      'await homePage.scrollToRulesButton();',
+      'assert.ok(',
+      '  await homePage.isRulesEntryVisible(3000),',
+      "  'Expected the Rules entry point to be visible on the home screen.'",
+      ');',
+      'assert.equal(',
+      '  await homePage.getRulesButtonLabel(),',
+      '  RULES_ENTRY_LABEL',
+      ');',
+      'await homePage.tapRulesButton();',
+      'await rulesPage.waitForLoaded();',
+      'assert.ok(',
+      '  await rulesPage.isLoaded(3000),',
+      "  'Expected the Rules screen to be visible.'",
+      ');'
+    ]
+  },
   create_guide_from_copilots: {
     pageObjects: [
       'copilots.page',
@@ -119,6 +142,29 @@ const FLOW_DEFINITIONS = {
       '  CONFIRMATION_BUTTON',
       ');',
       'await copilotCopiedModalPage.tapOkay();'
+    ]
+  },
+  record_behaviour_from_rules: {
+    pageObjects: ['rules.page', 'record-behaviour.page'],
+    helpers: [],
+    sharedData: ['confirmationButton'],
+    renderLines: () => [
+      'assert.ok(',
+      '  await rulesPage.firstRecButton.isDisplayed(),',
+      "  'Expected the Rules screen to expose the rec action for the first tile.'",
+      ');',
+      'await rulesPage.tapFirstRec();',
+      'await recordBehaviourPage.waitForConfirmationSheet();',
+      'assert.equal(',
+      '  await recordBehaviourPage.getConfirmButtonLabel(),',
+      '  CONFIRMATION_BUTTON',
+      ');',
+      'await recordBehaviourPage.tapConfirm();',
+      'await recordBehaviourPage.waitForConfirmationSheetToClose();',
+      'assert.ok(',
+      '  await rulesPage.isLoaded(3000),',
+      "  'Expected to return to the Rules screen after confirming the behaviour.'",
+      ');'
     ]
   }
 };

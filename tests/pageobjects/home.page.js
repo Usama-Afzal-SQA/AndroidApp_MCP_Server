@@ -9,6 +9,10 @@ class HomePage extends BasePage {
     return $('android=new UiSelector().description("CoPilots")');
   }
 
+  get rulesButton() {
+    return $('~Rules');
+  }
+
   get surveyDismissButton() {
     return $('android=new UiSelector().description("No")');
   }
@@ -40,6 +44,37 @@ class HomePage extends BasePage {
   async tapCoPilotsButton() {
     await this.dismissSurveyIfVisible();
     await this.tap(this.coPilotsButton);
+  }
+
+  async scrollToRulesButton(timeout = 15000) {
+    await this.dismissSurveyIfVisible();
+
+    const rulesButton = $(
+      'android=new UiScrollable(new UiSelector().scrollable(true).instance(0))'
+      + '.scrollIntoView(new UiSelector().description("Rules"))'
+    );
+
+    await this.waitFor(rulesButton, timeout);
+    return rulesButton;
+  }
+
+  async isRulesEntryVisible(timeout = 15000) {
+    try {
+      await this.scrollToRulesButton(timeout);
+      return this.rulesButton.isDisplayed();
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async getRulesButtonLabel(timeout = 15000) {
+    await this.scrollToRulesButton(timeout);
+    return this.rulesButton.getAttribute('contentDescription');
+  }
+
+  async tapRulesButton() {
+    await this.scrollToRulesButton();
+    await this.tap(this.rulesButton);
   }
 }
 
